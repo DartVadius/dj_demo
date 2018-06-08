@@ -1,0 +1,70 @@
+{% extends 'admin/base_site.html' %}
+
+{% block title %}Добавить фотографии | Мой проект{% endblock %}
+
+{% block extrastyle %}{{ block.super }}
+    {% load static %}
+    <link rel="stylesheet" href="{% static "css/bootstrap/bootstrap.min.css" %}">
+    <script src="{% static "js/bootstrap/bootstrap.min.js" %}"></script>
+{% endblock %}
+
+{% block breadcrumbs %}
+    <div class="breadcrumbs">
+        <a href="{% url 'admin:index' %}">Home</a>
+        <a href="{% url 'admin_gallery' %}">Галлереи</a>
+    </div>
+{% endblock %}
+
+{% block content %}
+    <div class="fieldsets container">
+        <fieldset class="module">
+            <h1>Добавить фотографии</h1>
+        <p>
+            <form action="#" method="post" enctype="multipart/form-data">
+                {% csrf_token %}
+                {% for field in form %}
+                    <div class="fieldWrapper">
+                        {{ field.label_tag }}
+                        <br>
+                        {{ field }}
+                        {{ field.errors }}
+                        {% if field.help_text %}
+                            <p class="help">{{ field.help_text|safe }}</p>
+                        {% endif %}
+                    </div>
+                {% endfor %}
+                <input type="submit" value="Submit"/>
+            </form>
+        </p>
+
+            {% for photo in photos %}
+                <div class="row">
+                    <div class="col-lg-4">
+                        <img src={{ photo.path }} class="image-preview">
+                            <a href="/admin/delete-photo/{{ photo.id }}/" class="btn btn-danger">X</a>
+
+                    </div>
+                    <div class="col-lg-8">
+                        <form action="/admin/update-photo/{{ photo.id }}/" method="post">
+                            {% csrf_token %}
+                            <p>
+                                Описание изображения
+                            </p>
+                            <p>
+                                <textarea
+                                    name="photo_desc"
+                                    id="{{ form.description.id_for_label }}"
+                                    {% if form.description.field.required %}required{% endif %}
+                            cols="20" rows="5">{% if photo.description %}{{ photo.description }}{% endif %}</textarea>
+                            </p>
+                            <p>
+                                <input type="submit" value="Submit"/>
+                            </p>
+
+                        </form>
+                    </div>
+                </div>
+            {% endfor %}
+        </fieldset>
+    </div>
+{% endblock %}

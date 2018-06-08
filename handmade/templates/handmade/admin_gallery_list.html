@@ -1,0 +1,58 @@
+{% extends 'admin/base_site.html' %}
+
+{% block title %}Тестовая страница в админке | Мой проект{% endblock %}
+
+{% comment %}{% block extrastyle %}{{ block.super }}
+    <link rel="stylesheet" href="{{ STATIC_URL }}path/css/style.css">
+{% endblock %}{% endcomment %}
+
+{% block breadcrumbs %}
+    <div class="breadcrumbs">
+        <a href="{% url 'admin:index' %}">Home</a>
+    </div>
+{% endblock %}
+
+{% block content %}
+    <div class="fieldsets">
+        <fieldset class="module">
+            <h1>Галереи</h1>
+            <a class="addlink" href="{% url 'admin_gallery_add' %}">Добавить галлерею</a>
+            <table>
+                <tr>
+                    <th>ID</th>
+                    <th>Назавание</th>
+                    <th>Дата создания</th>
+                    <th>Дата изменения</th>
+                    <th></th>
+                </tr>
+                {% for gallery in data %}
+                    <tr>
+                        <td>{{ gallery.id }}</td>
+                        <td>{{ gallery.name }}</td>
+                        <td>{{ gallery.date_create }}</td>
+                        <td>{{ gallery.date_update }}</td>
+                        <td><a href="/admin/admin-gallery-update/{{ gallery.id }}">Редактировать</a></td>
+                        <td><a href="/admin/add-photo/{{ gallery.id }}">Фотографии</a></td>
+                    </tr>
+                {% endfor %}
+            </table>
+        </fieldset>
+    </div>
+    <div class="pagination">
+    <span class="step-links">
+        {% if data.has_previous %}
+            <a href="?page=1">&laquo; first</a>
+            <a href="?page={{ data.previous_page_number }}">previous</a>
+        {% endif %}
+
+        <span class="current">
+            Page {{ data.number }} of {{ data.paginator.num_pages }}
+        </span>
+
+        {% if data.has_next %}
+            <a href="?page={{ data.next_page_number }}">next</a>
+            <a href="?page={{ data.paginator.num_pages }}">last &raquo;</a>
+        {% endif %}
+    </span>
+    </div>
+{% endblock %}

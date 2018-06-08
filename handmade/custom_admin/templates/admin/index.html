@@ -1,0 +1,23 @@
+{% extends "admin/index.html" %}
+
+{% comment %}{% block extrastyle %}
+    {{ block.super }}
+    {# --- custom styles --- #}
+{% endblock %}{% endcomment %}
+
+{% block content %}
+    <div class="custom_block app-handmade module">
+        <table class="table-striped">
+            <caption>
+                <a href="#" class="section" title="Модели в приложении Handmade">Handmade</a>
+            </caption>
+            <tr class="model-gallery">
+                <th scope="row"><a href="{% url 'admin_gallery' %}">Галлереи</a></th>
+                <td><a href="{% url 'admin_gallery_add' %}" class="addlink">Добавить</a></td>
+{#                <td><a href="{% url 'admin_gallery_update' %}" class="changelink">Изменить</a></td>#}
+            </tr>
+        </table>
+    </div>
+
+    {{ block.super }}
+{% endblock %}

@@ -3,23 +3,25 @@ from .models import Gallery, Page, Post, Photo
 from .forms import GalleryForm
 
 
-class GalleryAdmin(admin.ModelAdmin):
-    form = GalleryForm
+# class GalleryAdmin(admin.ModelAdmin):
+#     form = GalleryForm
+#
+#     fieldsets = (
+#         (None, {
+#             'fields': ('name', 'description', form.file,),
+#         }),
+#     )
 
-    fieldsets = (
-        (None, {
-            'fields': ('name', 'description', 'file',),
-        }),
-    )
-
-
-admin.site.register(Post)
-admin.site.register(Gallery, GalleryAdmin)
-admin.site.register(Page)
-admin.site.register(Photo)
-
-
-
+class ItemAdmin(admin.ModelAdmin):
+    class Media:
+        css = {
+            "screen": ("css/bootstrap/bootstrap.min.css",)
+        }
+        js = ("js/bootstrap/bootstrap.min.js",)
 
 
-
+# admin.site.register(Gallery, ItemAdmin)
+admin.site.register(Post, ItemAdmin)
+# admin.site.register(Gallery, GalleryAdmin)
+admin.site.register(Page, ItemAdmin)
+# admin.site.register(Photo)
